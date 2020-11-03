@@ -15,4 +15,12 @@ func main() {
 	fmt.Fscan(os.Stdin, &age)
 
 	fmt.Println(name, age)
+
+	var flag int
+	for {
+		fmt.Fscan(os.Stdin, &flag)
+		if flag == 0 {
+			break
+		}
+	}
 }
