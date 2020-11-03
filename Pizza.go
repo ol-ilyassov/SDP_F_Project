@@ -18,6 +18,7 @@ func main() {
 
 	var flag int
 	for {
+
 		fmt.Fscan(os.Stdin, &flag)
 		if flag == 0 {
 			break

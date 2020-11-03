@@ -1,1 +1,23 @@
 Link to repository: https://github.com/ol-ilyassov/sdp-final-project.git
+
+Topic: Pizza
+Struct: Pizza and Client
+- Sells Prepared Pizza and Client have an opportunity to create Custom Pizza
+
+Patterns:
+- 1. Builder
+- 2. Factory - discount - age or position in society
+- 3.
+- 4.
+- 5.
+- 6. ...
+
+Options:
+Creational DP:
+Factory, Builder, Singleton
+
+Structural DP:
+Adapter, Dridge, Decorator, Facade
+
+Behavioural DP:
+Strategy, Chain of Responsibility, Observer, Visitor,
