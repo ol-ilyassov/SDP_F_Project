@@ -8,32 +8,46 @@ type client struct {
 	socialStatus status
 }
 
+func (c *client) pay() {
+	c.socialStatus.discount()
+}
+
+func NewClient(name string, age int) *client {
+	if age > 50 {
+		return &client{name, age, PensionerStatus{}}
+	}
+	return &client{name, age, DefaultStatus{}}
+}
+
 func (c *client) setStatus(s status) {
 	c.socialStatus = s
 }
 
-type Client struct {
-	client
-}
-
-func (c *Client) NewClient(name string, age int) *Client {
-	if age > 50 {
-		return &Client{name}
-	}
-}
-
 type status interface {
-	pay()
+	discount()
+}
+
+type DefaultStatus struct{}
+
+func (d DefaultStatus) discount() {
+	fmt.Println("Your discount is 0%")
 }
 
 type StudentStatus struct{}
 
-func (s *StudentStatus) pay() {
+func (s StudentStatus) discount() {
 	fmt.Println("Your discount is 20%")
 }
 
 type PensionerStatus struct{}
 
-func (p *PensionerStatus) pay() {
+func (p PensionerStatus) discount() {
 	fmt.Println("Your discount is 30%")
+}
+
+func main() {
+	newclient := NewClient("Olzhas", 20)
+	newclient.pay()
+	newclient.setStatus(StudentStatus{})
+	newclient.pay()
 }
