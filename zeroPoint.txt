@@ -6,18 +6,18 @@ Struct: Pizza and Client
 
 Patterns:
 - 1. Builder
-- 2. Factory - discount - age or position in society
-- 3.
-- 4.
-- 5.
-- 6. ...
+- 2. Factory - discount - age or position in society - Client account type
+- 3. Bridge (Strategy) - bank card
+- 4. Strategy - Pension
+- 5. Visitor
+- 6. Observer?
 
 Options:
-Creational DP:
-Factory, Builder, Singleton
+> Creational DP:
+> [Factory, Builder, Singleton] + +
 
-Structural DP:
-Adapter, Dridge, Decorator, Facade
+> Structural DP:
+> [Adapter, Bridge, Decorator, Facade]
 
-Behavioural DP:
-Strategy, Chain of Responsibility, Observer, Visitor,
+> Behavioural DP:
+> [Strategy, Chain of Responsibility, Observer, Visitor]

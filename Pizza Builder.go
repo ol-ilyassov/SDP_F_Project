@@ -8,12 +8,14 @@ package main
 import "fmt"
 
 type Pizza struct {
-	//Size
-	size string
-	//Ingredients
+	name                                                            string
+	size                                                            string
 	tomato, pineapple, anchovy, cheese, pepperoni, lettuce, sausage bool
-	//Total cost
-	price float32
+	price                                                           float32
+}
+
+func (p *Pizza) GetName() string {
+	return p.name
 }
 
 type PizzaBuilder struct{ pizza *Pizza }
@@ -109,7 +111,7 @@ func (p *Pizza) ToPrintIngredients() {
 	if p.sausage {
 		message += "Sausage; "
 	}
-	fmt.Println("Pizza with " + message)
+	fmt.Println("Pizza" + p.GetName() + "with " + message)
 }
 
 func main() {

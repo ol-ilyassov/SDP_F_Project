@@ -11,19 +11,26 @@ import (
 )
 
 func main() {
+
+	// Initialization of pizzas
+
 	var name string
 	var age int
-	fmt.Print("Введите имя: ")
+	var isStudent bool
+	fmt.Print("Enter Name: ")
 	fmt.Fscan(os.Stdin, &name)
 
-	fmt.Print("Введите возраст: ")
+	fmt.Print("Enter Age: ")
 	fmt.Fscan(os.Stdin, &age)
 
-	fmt.Println(name, age)
+	fmt.Print("Are you Student ?")
+	fmt.Fscan(os.Stdin, &isStudent)
+
+	fmt.Println(name, age, isStudent)
 
 	var flag int
-	for {
 
+	for {
 		fmt.Fscan(os.Stdin, &flag)
 		if flag == 0 {
 			break
