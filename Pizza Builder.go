@@ -1,7 +1,8 @@
-// Student: Ilyassov Olzhas
 // Group: SE1902
-// Task: Example for Builder Design Pattern
-// ----> Creation of order for Custom-Pizza
+// Student 1: Ilyassov Olzhas
+// Student 2: Sovetkazhiyev Alibek
+// Student 3: Bakhytbekov Yersultan
+// Task 1: Group Project
 package main
 
 import "fmt"

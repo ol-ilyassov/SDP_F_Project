@@ -1,8 +1,12 @@
-// Student: Ilyassov Olzhas
 // Group: SE1902
-// Topic: Chain Of Responsibility Design Pattern
+// Student 1: Ilyassov Olzhas
+// Student 2: Sovetkazhiyev Alibek
+// Student 3: Bakhytbekov Yersultan
+// Task 1: Group Project
+
 package main
 
+/*
 import "fmt"
 
 // 0) Concrete Struct
@@ -150,3 +154,4 @@ func main() {
 	root.Apply()
 	fmt.Println(myPizza)
 }
+*/

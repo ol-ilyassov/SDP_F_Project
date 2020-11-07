@@ -1,29 +1,36 @@
+// Group: SE1902
+// Student 1: Ilyassov Olzhas
+// Student 2: Sovetkazhiyev Alibek
+// Student 3: Bakhytbekov Yersultan
+// Task 1: Group Project
 package main
 
 import "fmt"
 
-type client struct {
+// Bank Card - Strategy
+
+type Client struct {
 	name         string
 	age          int
-	socialStatus status
+	socialStatus Status
 }
 
-func (c *client) pay() {
+func (c *Client) pay() {
 	c.socialStatus.discount()
 }
 
-func NewClient(name string, age int) *client {
+func NewClient(name string, age int) *Client {
 	if age > 50 {
-		return &client{name, age, PensionerStatus{}}
+		return &Client{name, age, PensionerStatus{}}
 	}
-	return &client{name, age, DefaultStatus{}}
+	return &Client{name, age, DefaultStatus{}}
 }
 
-func (c *client) setStatus(s status) {
+func (c *Client) setStatus(s Status) {
 	c.socialStatus = s
 }
 
-type status interface {
+type Status interface {
 	discount()
 }
 
@@ -46,8 +53,8 @@ func (p PensionerStatus) discount() {
 }
 
 func main() {
-	newclient := NewClient("Olzhas", 20)
-	newclient.pay()
-	newclient.setStatus(StudentStatus{})
-	newclient.pay()
+	newClient := NewClient("Olzhas", 20)
+	newClient.pay()
+	newClient.setStatus(StudentStatus{})
+	newClient.pay()
 }
