@@ -11,6 +11,7 @@ Patterns:
 - 4. Strategy - Pension
 - 5. Visitor
 - 6. Observer?
+- 7. Facade?
 
 Options:
 > Creational DP:
