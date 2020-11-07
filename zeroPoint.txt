@@ -22,3 +22,8 @@ Options:
 
 > Behavioural DP:
 > [Strategy, Chain of Responsibility, Observer, Visitor]
+
+
+For correct work:
+- Variant I: Retrieve nil if work is incorrect and just print error to Command Log
+- Variant II: Retrieve error as string

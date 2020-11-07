@@ -19,10 +19,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b349875d-3065-4e70-bf73-0b166a813faa" name="Default Changelist" comment="Adding Factory and Bridge, editing Pizza Builder">
+    <list default="true" id="b349875d-3065-4e70-bf73-0b166a813faa" name="Default Changelist" comment="Adding Bridge, Factory and Facade patterns">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client.go" beforeDir="false" afterPath="$PROJECT_DIR$/Client and Strategy.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zeroPoint.txt" beforeDir="false" afterPath="$PROJECT_DIR$/zeroPoint.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BankCard to Client Bridge.go" beforeDir="false" afterPath="$PROJECT_DIR$/BankCard to Client Bridge.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client and Strategy.go" beforeDir="false" afterPath="$PROJECT_DIR$/Client and Strategy.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Clients Factory.go" beforeDir="false" afterPath="$PROJECT_DIR$/Clients Factory.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +54,15 @@
     <property name="go.sdk.automatically.set" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Go Build.go build BankCard to Client Bridge.go">
+    <configuration name="go build BankCard to Client Bridge.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="Pizza" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/BankCard to Client Bridge.go" />
+      <directory value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build Client.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="Pizza" />
       <working_directory value="$PROJECT_DIR$" />
@@ -64,6 +73,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build BankCard to Client Bridge.go" />
         <item itemvalue="Go Build.go build Client.go" />
       </list>
     </recent_temporary>
@@ -92,33 +102,34 @@
     <MESSAGE value="Chain" />
     <MESSAGE value="Project Formatting" />
     <MESSAGE value="Adding Factory and Bridge, editing Pizza Builder" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding Factory and Bridge, editing Pizza Builder" />
+    <MESSAGE value="Adding Bridge, Factory and Facade patterns" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding Bridge, Factory and Facade patterns" />
   </component>
   <component name="WindowStateProjectService">
     <state x="223" y="67" width="1089" height="714" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1604781844918">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="223" y="67" width="1089" height="714" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1604781844918" />
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1604395150202">
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1604791475831">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1604395150202" />
-    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1604395150202">
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1604791475831" />
+    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1604791475831">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1604395150202" />
-    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1604395150201">
+    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1604791475831" />
+    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1604791475831">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1604395150201" />
-    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1604395150202">
+    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1604791475831" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1604791475831">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1604395150202" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1604784275767">
+    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1604791475831" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1604785207551">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1604784275767" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1604785207551" />
     <state x="586" y="326" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1604629780032">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

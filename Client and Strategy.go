@@ -13,17 +13,19 @@ type Client struct {
 	name         string
 	age          int
 	socialStatus Status
+	card         Card
 }
 
 func (c *Client) pay() {
 	c.socialStatus.discount()
 }
 
+// Factory ?
 func NewClient(name string, age int) *Client {
 	if age > 50 {
-		return &Client{name, age, PensionerStatus{}}
+		return &Client{name: name, age: age, socialStatus: PensionerStatus{}}
 	}
-	return &Client{name, age, DefaultStatus{}}
+	return &Client{name: name, age: age, socialStatus: DefaultStatus{}}
 }
 
 func (c *Client) setStatus(s Status) {
@@ -43,13 +45,13 @@ func (d DefaultStatus) discount() {
 type StudentStatus struct{}
 
 func (s StudentStatus) discount() {
-	fmt.Println("Your discount is 20%")
+	fmt.Println("Your discount is 10%")
 }
 
 type PensionerStatus struct{}
 
 func (p PensionerStatus) discount() {
-	fmt.Println("Your discount is 30%")
+	fmt.Println("Your discount is 20%")
 }
 
 func main() {
