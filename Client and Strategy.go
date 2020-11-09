@@ -7,17 +7,27 @@ package main
 
 import "fmt"
 
-// Bank Card - Strategy
-
 type Client struct {
+	fname        string
 	name         string
 	age          int
-	socialStatus Status
-	card         Card
+	socialStatus Status //Strategy
+	//card Card //Bridge
 }
 
-func (c *Client) pay() {
-	c.socialStatus.discount()
+//Factory
+func NewClientFactory(socialStatus Status) func(name string, age int) *Client {
+	return func(name string, age int) *Client {
+		return &Client{name: name, age: age, socialStatus: socialStatus}
+	}
+}
+
+func (c *Client) Pay() {
+	c.socialStatus.Discount()
+}
+
+func (c *Client) SetStatus(s Status) {
+	c.socialStatus = s
 }
 
 // Factory ?
@@ -28,35 +38,48 @@ func NewClient(name string, age int) *Client {
 	return &Client{name: name, age: age, socialStatus: DefaultStatus{}}
 }
 
-func (c *Client) setStatus(s Status) {
-	c.socialStatus = s
-}
-
 type Status interface {
-	discount()
+	Discount()
 }
 
 type DefaultStatus struct{}
 
-func (d DefaultStatus) discount() {
+func (d DefaultStatus) Discount() {
 	fmt.Println("Your discount is 0%")
 }
 
 type StudentStatus struct{}
 
-func (s StudentStatus) discount() {
+func (s StudentStatus) Discount() {
 	fmt.Println("Your discount is 10%")
 }
 
 type PensionerStatus struct{}
 
-func (p PensionerStatus) discount() {
+func (p PensionerStatus) Discount() {
 	fmt.Println("Your discount is 20%")
 }
 
 func main() {
+
 	newClient := NewClient("Olzhas", 20)
-	newClient.pay()
-	newClient.setStatus(StudentStatus{})
-	newClient.pay()
+	newClient.Pay()
+	newClient.SetStatus(StudentStatus{})
+	newClient.Pay()
+
+	/*
+
+		oldClient := NewClientFactory(DefaultStatus{})
+		//newClient := NewClientFactory(PensionerStatus{})
+
+		card1 := &MasterCard{}
+		//card2 := &Visa{}
+
+		client1 := oldClient("Olzhas", card1,17)
+		//client2 := newClient("Miras", card2,19)
+
+		fmt.Println(client1)
+		//fmt.Println(client2)
+
+	*/
 }
