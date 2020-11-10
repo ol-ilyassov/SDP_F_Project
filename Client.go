@@ -29,8 +29,8 @@ type Client struct {
 	socialStatus Status //Strategy
 }
 
-func (c *Client) Pay() {
-	c.socialStatus.Discount()
+func (c *Client) Pay() float32 {
+	return c.socialStatus.Discount()
 }
 
 func (c *Client) SetStatus(s Status) {
@@ -38,25 +38,28 @@ func (c *Client) SetStatus(s Status) {
 }
 
 type Status interface {
-	Discount()
+	Discount() float32
 }
 
 type DefaultStatus struct{}
 
-func (d DefaultStatus) Discount() {
-	fmt.Println("Your discount is 0%")
+func (d DefaultStatus) Discount() float32 {
+	fmt.Println("You have Your discount is 0%")
+	return 0
 }
 
 type StudentStatus struct{}
 
-func (s StudentStatus) Discount() {
-	fmt.Println("Your discount is 10%")
+func (s StudentStatus) Discount() float32 {
+	fmt.Println("You have a Student Status.\n Consequently, your discount is 10%")
+	return 10
 }
 
 type PensionerStatus struct{}
 
-func (p PensionerStatus) Discount() {
-	fmt.Println("Your discount is 20%")
+func (p PensionerStatus) Discount() float32 {
+	fmt.Println("You have a Pensioner Status.\n Consequently, your discount is 20%")
+	return 20
 }
 
 // Factory

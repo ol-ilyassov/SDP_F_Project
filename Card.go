@@ -2,17 +2,13 @@ package main
 
 import "fmt"
 
-type ClientPayer struct {
-	card Card
-}
-
-func (c *ClientPayer) Pay() {
+func (o *OrdinaryOrder) Pay() {
 	fmt.Println("- Starting Pay Operation ... -")
-	c.card.PayOperation()
+	o.card.PayOperation()
 }
 
-func (c *ClientPayer) SetCard(card Card) {
-	c.card = card
+func (o *OrdinaryOrder) SetCard(card Card) {
+	o.card = card
 }
 
 type Card interface {
@@ -43,13 +39,13 @@ func main() {
 	visa1 := &Visa{}
 	mastercard1 := &MasterCard{}
 
-	client1 := &ClientPayer{}
+	order1 := &OrdinaryOrder{}
 
-	client1.SetCard(visa1)
-	client1.Pay()
+	order1.SetCard(visa1)
+	order1.Pay()
 	fmt.Println()
 
-	client1.SetCard(mastercard1)
-	client1.Pay()
+	order1.SetCard(mastercard1)
+	order1.Pay()
 	fmt.Println()
 }
