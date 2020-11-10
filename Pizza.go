@@ -7,6 +7,7 @@ package main
 
 import "fmt"
 
+// Builder
 type Pizza struct {
 	name                                                            string
 	size                                                            string
@@ -14,9 +15,7 @@ type Pizza struct {
 	price                                                           float32
 }
 
-func (p *Pizza) GetName() string {
-	return p.name
-}
+func (p *Pizza) GetName() string { return p.name }
 
 type PizzaBuilder struct{ pizza *Pizza }
 
