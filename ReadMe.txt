@@ -15,8 +15,8 @@
   - Factory [Client] +
 
  > Structural DP:
-  - Facade [Order]
-  - Bridge [Order + Card]
+  - Facade [Order] IN PROGRESS
+  - Bridge [Order + Card] +
 
  > Behavioural DP:
   - Visitor [Order, Pizza] +
