@@ -19,7 +19,7 @@
   - Bridge [Client + Card]
 
  > Behavioural DP:
-  - Visitor [?]
+  - Visitor [Order, Pizza] +
   - Strategy [Client] +
 
 // Add Visitor?

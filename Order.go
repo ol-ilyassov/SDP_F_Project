@@ -3,7 +3,7 @@ package main
 // Visitor
 
 type Order interface {
-	Accept(Visitor)
+	Accept(OrderVisitor)
 }
 
 // Facade
@@ -15,11 +15,11 @@ type OrdinaryOrder struct {
 
 }
 
-func (o *OrdinaryOrder) Accept(v Visitor) {
+func (o *OrdinaryOrder) Accept(v OrderVisitor) {
 	v.VisitForOrdinaryOrder(o)
 }
 
-type Visitor interface {
+type OrderVisitor interface {
 	VisitForOrdinaryOrder(*OrdinaryOrder)
 }
 

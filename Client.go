@@ -7,12 +7,22 @@ import (
 	"time"
 )
 
+type Date struct {
+	Year  int
+	Month int
+	Day   int
+}
+
+func MakeDate(year, month, day int) time.Time {
+	return time.Date(year, time.Month(month), day, 0, 0, 0, 0, time.UTC)
+}
+
 type baseClient interface {
 	GetName() string
 	GetStatus() string
 	MakeDiscount() float32
-	Accept(Visitor) // Visitor DP
 }
+
 type Client struct {
 	name         string
 	dateOfBirth  Date
@@ -27,16 +37,6 @@ func (c *Client) GetStatus() string {
 }
 func (c *Client) MakeDiscount() float32 {
 	return c.socialStatus.Discount()
-}
-
-type Date struct {
-	Year  int
-	Month int
-	Day   int
-}
-
-func MakeDate(year, month, day int) time.Time {
-	return time.Date(year, time.Month(month), day, 0, 0, 0, 0, time.UTC)
 }
 
 // Strategy DP
