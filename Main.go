@@ -151,7 +151,8 @@ func MakingCustomPizza() *Pizza {
 
 func main() {
 
-	//card1 := &MasterCard{cardNumber: 4515345294534234, balance: 8000.00}
+	card1 := &MasterCard{cardNumber: "4111222233334444", balance: 8000.00, secureCode: 1111}
+	card2 := &VisaCard{cardNumber: "5111222233334444", balance: 6000.00, secureCode: 1112}
 
 	// Initialization of pizzas
 	var pizzaList []*Pizza
@@ -164,7 +165,7 @@ func main() {
 	pizzaList = append(pizzaList, &Pizza{name: "- END ORDER -"})
 	// End
 
-	order := &OrdinaryOrder{}
+	order := &OrdinaryOrder{pizzas: make(map[*Pizza]float32)}
 	s1 := rand.NewSource(time.Now().UnixNano())
 	r1 := rand.New(s1)
 
@@ -184,12 +185,11 @@ func main() {
 	fmt.Fscan(os.Stdin, &day, &month, &year)
 	client := NewClientFactory(name, Date{year, month, day})
 	order.SetClient(*client)
-
 	fmt.Println("\n - Now " + client.GetName() + ", Let's make an Order! - ")
-	fmt.Println(" - Pizza's Menu: - ")
 
 PizzaOrdering:
 	for {
+		fmt.Println(" - Pizza's Menu: - ")
 		for i, v := range pizzaList {
 			fmt.Printf(" [%d] %s\n", i, v.GetName())
 		}
@@ -244,55 +244,62 @@ PizzaOrdering:
 					break
 				}
 			}
-			order.pizzas[pizzaList[pizzaId]] = count
+			order.AddPizza(pizzaList[pizzaId], count)
 		}
 		fmt.Println(" |------------------------| ")
 		fmt.Println(" - You Ordered Pizzas: - ")
 		for i, v := range order.pizzas {
-			fmt.Printf("\n 1) %s - %f", i.GetName(), v)
+			fmt.Printf(" 1) %s - Count: %.0f\n", i.GetName(), v)
+		}
+		fmt.Println(" |------------------------| ")
+		fmt.Println()
+	}
+	fmt.Println(" |------------------------| ")
+	fmt.Println(" - You Ordered Pizzas: - ")
+	count = 0
+	for i, v := range order.pizzas {
+		fmt.Printf(" 1) %s - Count: %.0f\n", i.GetName(), v)
+		count++
+	}
+	if count == 0 {
+		fmt.Println("    No Pizza Ordered    ")
+	}
+	fmt.Println(" |------------------------| ")
+	fmt.Println()
+	getPrice := &GetPrice{}
+	var totalPrice float32
+	count = 0
+	for i, v := range order.pizzas {
+		if v != 0 {
+			i.Accept(getPrice)
+			totalPrice += getPrice.price * v
+		}
+		count++
+	}
+	fmt.Printf(" - Total price: $%.2f - \n", totalPrice)
+	fmt.Println(" - Please, provide your cart to make Payment - ")
+	fmt.Println("> Enter Your Card Number: ")
+	// Payment
+CardSetting:
+	for {
+		fmt.Fscan(os.Stdin, &temp)
+		switch temp {
+		case "4111222233334444":
+			order.SetCard(card1)
+			break CardSetting
+		case "5111222233334444":
+			order.SetCard(card2)
+			break CardSetting
+		default:
+			fmt.Println(" - Incorrect Card Number, Try Again - ")
 		}
 	}
+	fmt.Println(order.client.socialStatus.String())
+	count = order.client.socialStatus.Discount()
+	totalPrice = totalPrice - totalPrice*(count/100)
 
-	//
-
-	// Payment
-
-	//
-
+	order.Pay(totalPrice)
+	fmt.Println()
 	fmt.Println(" - Thank You for using our Services - ")
 	fmt.Println(" - Have a nice Day! - ")
-
-	/*
-		for i, v := range pizzaList {
-			fmt.Printf(" [%d] %s\n", i, v.GetName())
-		}
-		fmt.Fscan(os.Stdin, &pizzaId)
-	*/
-
-	//
-	/*
-		order.pizzas = make(map[*Pizza]float32)
-		order.client = Client{}
-		order.pizzas[pizzaList[1]] = 2
-		order.pizzas[pizzaList[2]] = 4
-
-		getPrice := &GetPrice{}
-		var totalPrice float32
-		count = 0
-		for i, v := range order.pizzas {
-			if v != 0 {
-				fmt.Println(order.pizzas[i])
-				i.Accept(getPrice)
-				totalPrice += getPrice.price * v
-				fmt.Println()
-			}
-			count ++
-		}
-		fmt.Printf("Custom Pizza price: $%.2f \n", totalPrice)
-
-		pizzaList[0] = &Pizza{name: "Meow", size: "Large",tomato: true, cheese: true}
-
-		fmt.Println(pizzaList[0])
-		fmt.Println(pizzaList[1])
-	*/
 }

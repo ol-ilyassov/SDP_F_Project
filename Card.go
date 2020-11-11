@@ -2,29 +2,21 @@ package main
 
 import "fmt"
 
-func (o *OrdinaryOrder) Pay() {
-	fmt.Println("- Starting Pay Operation ... -")
-	o.card.PayOperation()
-}
-
-func (o *OrdinaryOrder) SetCard(card Card) {
-	o.card = card
-}
-
 // Bridge DP
 type Card interface {
-	PayOperation()
+	PayOperation(float32)
 }
 
-type Visa struct {
-	cardNumber int
+type VisaCard struct {
+	cardNumber string
 	balance    float32
+	secureCode int
 }
 
-func (v *Visa) GetCardNumber() int {
+func (v *VisaCard) GetCardNumber() string {
 	return v.cardNumber
 }
-func (v *Visa) PayOperation(money float32) {
+func (v *VisaCard) PayOperation(money float32) {
 	if money < v.balance {
 		v.balance = v.balance - money
 		fmt.Println(" - Pay Operation is successfully Completed by Visa Card - ")
@@ -32,13 +24,17 @@ func (v *Visa) PayOperation(money float32) {
 		fmt.Println(" - Payment Fail, no enough money - ")
 	}
 }
-
-type MasterCard struct {
-	cardNumber int
-	balance    float32
+func (v *VisaCard) GetSecureCode() int {
+	return v.secureCode
 }
 
-func (m *MasterCard) GetCardNumber() int {
+type MasterCard struct {
+	cardNumber string
+	balance    float32
+	secureCode int
+}
+
+func (m *MasterCard) GetCardNumber() string {
 	return m.cardNumber
 }
 func (m *MasterCard) PayOperation(money float32) {
@@ -48,4 +44,7 @@ func (m *MasterCard) PayOperation(money float32) {
 	} else {
 		fmt.Println(" - Payment Fail, no enough money - ")
 	}
+}
+func (m *MasterCard) GetSecureCode() int {
+	return m.secureCode
 }

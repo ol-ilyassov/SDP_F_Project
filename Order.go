@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 // Visitor
 /*
 type Order interface {
@@ -35,8 +37,21 @@ func (o *OrdinaryOrder) AddPizza(pizza *Pizza, number float32) {
 	o.pizzas[pizza] = number
 }
 
-func (o *OrdinaryOrder) Payment() bool {
-	return false
+func (o *OrdinaryOrder) InitPizzasListForOrder() {
+	o.pizzas = make(map[*Pizza]float32)
+}
+
+func (o *OrdinaryOrder) Pay(money float32) {
+	fmt.Println("- Starting Pay Operation ... -")
+	o.card.PayOperation(money)
+}
+
+func (o *OrdinaryOrder) SetCard(card Card) {
+	o.card = card
+}
+
+func (o *OrdinaryOrder) GetCard() *Card {
+	return &o.card
 }
 
 /*
