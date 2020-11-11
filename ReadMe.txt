@@ -16,7 +16,7 @@
 
  > Structural DP:
   - Facade [Order]
-  - Bridge [Client + Card]
+  - Bridge [Order + Card]
 
  > Behavioural DP:
   - Visitor [Order, Pizza] +

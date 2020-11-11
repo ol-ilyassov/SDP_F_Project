@@ -1,20 +1,45 @@
 package main
 
 // Visitor
-
+/*
 type Order interface {
 	Accept(OrderVisitor)
 }
-
+*/
 // Facade
 type OrdinaryOrder struct {
 	orderNum int
-	pizzas   []Pizza //Map should be used
+	pizzas   map[*Pizza]float32 // Pizza Struct + Count
 	client   Client
-	card     Card // Bridge
-
+	card     Card // Bridge DP
+	isPaid   bool
 }
 
+func (o *OrdinaryOrder) SetOrderNum(orderNum int) {
+	o.orderNum = orderNum
+}
+
+func (o *OrdinaryOrder) GetOrderNum() int {
+	return o.orderNum
+}
+
+func (o *OrdinaryOrder) SetClient(client Client) {
+	o.client = client
+}
+
+func (o *OrdinaryOrder) GetClient() *Client {
+	return &o.client
+}
+
+func (o *OrdinaryOrder) AddPizza(pizza *Pizza, number float32) {
+	o.pizzas[pizza] = number
+}
+
+func (o *OrdinaryOrder) Payment() bool {
+	return false
+}
+
+/*
 func (o *OrdinaryOrder) Accept(v OrderVisitor) {
 	v.VisitForOrdinaryOrder(o)
 }
@@ -38,3 +63,5 @@ func (m *Method2) VisitForOrdinaryOrder(o *OrdinaryOrder) {
 }
 
 //
+
+*/
