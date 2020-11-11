@@ -11,8 +11,8 @@
 - Design Patterns:
 
  > Creational DP:
-  - Builder [Pizza]
-  - Factory [Client]
+  - Builder [Pizza] +
+  - Factory [Client] +
 
  > Structural DP:
   - Facade [Order]
@@ -20,7 +20,7 @@
 
  > Behavioural DP:
   - Visitor [?]
-  - Strategy [Client]
+  - Strategy [Client] +
 
 // Add Visitor?
 // Add function to leave Comment (Feedback)

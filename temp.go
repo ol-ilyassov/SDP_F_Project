@@ -21,3 +21,21 @@ func NewClient(name string, date Date) *Client {
 	return &Client{name, date, DefaultStatus{}}
 }
 */
+
+/*
+func main() {
+	visa1 := &Visa{}
+	mastercard1 := &MasterCard{}
+
+	order1 := &OrdinaryOrder{}
+
+	order1.SetCard(visa1)
+	order1.Pay()
+	fmt.Println()
+
+	order1.SetCard(mastercard1)
+	order1.Pay()
+	fmt.Println()
+}
+
+*/

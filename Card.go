@@ -11,6 +11,7 @@ func (o *OrdinaryOrder) SetCard(card Card) {
 	o.card = card
 }
 
+// Bridge DP
 type Card interface {
 	PayOperation()
 }
@@ -33,19 +34,4 @@ type MasterCard struct {
 
 func (p *MasterCard) PayOperation() {
 	fmt.Println("Pay Operation is successfully Completed by Master Card")
-}
-
-func main() {
-	visa1 := &Visa{}
-	mastercard1 := &MasterCard{}
-
-	order1 := &OrdinaryOrder{}
-
-	order1.SetCard(visa1)
-	order1.Pay()
-	fmt.Println()
-
-	order1.SetCard(mastercard1)
-	order1.Pay()
-	fmt.Println()
 }
