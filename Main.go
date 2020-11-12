@@ -16,7 +16,7 @@ func main() {
 	pizzaList = append(pizzaList, &Pizza{name: "Margarita", size: "Large", pepperoni: true, anchovy: true, sausage: true})
 	pizzaList = append(pizzaList, &Pizza{name: "- END ORDER -"})
 
-	// Creation of Order
+	// Ordering Process
 	order := &OrdinaryOrder{pizzas: make(map[*Pizza]float32)}
 	order.GenerateOrderNum()
 	order.SetClient()
