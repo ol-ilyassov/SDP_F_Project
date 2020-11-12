@@ -11,17 +11,13 @@
 - Design Patterns:
 
  > Creational DP:
-  - Builder [Pizza] +
-  - Factory [Client] +
+  - Builder [Pizza] Done
+  - Factory [Client] Done
 
  > Structural DP:
-  - Facade [Order] IN PROGRESS
-  - Bridge [Order + Card] +
+  - Facade [Order] Done
+  - Bridge [Order + Card] Done
 
  > Behavioural DP:
-  - Visitor [Order, Pizza] +
-  - Strategy [Client] +
-
-// Add Visitor?
-// Add function to leave Comment (Feedback)
-// Add parameter to retrieve error
+  - Visitor [Order, Pizza] Done
+  - Strategy [Client] Done
