@@ -47,7 +47,7 @@ type Status interface {
 type DefaultStatus struct{}
 
 func (d DefaultStatus) Discount() float32 {
-	fmt.Println(" - You have Your discount is 0% - ")
+	fmt.Println(" - Your discount is 0% - ")
 	return 0
 }
 func (d DefaultStatus) String() string {

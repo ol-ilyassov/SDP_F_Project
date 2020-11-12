@@ -21,10 +21,10 @@ func (v *VisaCard) GetCardNumber() string {
 func (v *VisaCard) PayOperation(money float32) bool {
 	if money < v.balance {
 		v.balance = v.balance - money
-		fmt.Println(" - Pay Operation is successfully Completed by Visa Card - ")
+		fmt.Println(" - Pay Operation is Successfully Completed by Visa Card - ")
 		return true
 	} else {
-		fmt.Println(" - Payment Fail, no enough money - ")
+		fmt.Println(" - Payment Fail, No enough Money on Balance - ")
 	}
 	return false
 }
@@ -44,10 +44,10 @@ func (m *MasterCard) GetCardNumber() string {
 func (m *MasterCard) PayOperation(money float32) bool {
 	if money < m.balance {
 		m.balance = m.balance - money
-		fmt.Println(" - Pay Operation is successfully Completed by Master Card - ")
+		fmt.Println(" - Pay Operation is Successfully Completed by Master Card - ")
 		return true
 	} else {
-		fmt.Println(" - Payment Fail, no enough money - ")
+		fmt.Println(" - Payment Fail, No enough Money on Balance - ")
 	}
 	return false
 }

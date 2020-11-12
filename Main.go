@@ -7,148 +7,6 @@ import (
 	"time"
 )
 
-func MakingCustomPizza() *Pizza {
-	var temp string
-	fmt.Println(" - You have chosen the service of buying a Custom Pizza: - ")
-	fmt.Println(" - You should choose 2 or more ingredients - ")
-	pizzaBuilder := NewPizzaBuilder()
-	fmt.Printf("> Choose the size for your pizza\n  Small, Medium, or Large [S/M/L]: ")
-	for {
-		fmt.Fscan(os.Stdin, &temp)
-		if temp == "S" {
-			pizzaBuilder.SetSize().Small()
-			break
-		} else if temp == "M" {
-			pizzaBuilder.SetSize().Medium()
-			break
-		} else if temp == "L" {
-			pizzaBuilder.SetSize().Large()
-			break
-		} else {
-			fmt.Print("> Incorrect size of Pizza, Try again: ")
-		}
-	}
-	var tempBuilder *PizzaBuilder
-	var count int
-	for {
-		tempBuilder = pizzaBuilder
-		count = 0
-
-	LoopTomato:
-		for {
-			fmt.Print("> Would you like to add Tomato? [Y/N]: ")
-			switch fmt.Fscan(os.Stdin, &temp); temp {
-			case "Y":
-				tempBuilder.AddTomato()
-				count += 1
-				break LoopTomato
-			case "N":
-				break LoopTomato
-			default:
-				fmt.Print(" - Incorrect Input - \n")
-			}
-		}
-	LoopPineapple:
-		for {
-			fmt.Print("> Would you like to add Pineapple? [Y/N]: ")
-			switch fmt.Fscan(os.Stdin, &temp); temp {
-			case "Y":
-				tempBuilder.AddPineapple()
-				count += 1
-				break LoopPineapple
-			case "N":
-				break LoopPineapple
-			default:
-				fmt.Print(" - Incorrect Input - \n")
-			}
-		}
-	LoopAnchovy:
-		for {
-			fmt.Print("> Would you like to add Anchovy? [Y/N]: ")
-			switch fmt.Fscan(os.Stdin, &temp); temp {
-			case "Y":
-				tempBuilder.AddAnchovy()
-				count += 1
-				break LoopAnchovy
-			case "N":
-				break LoopAnchovy
-			default:
-				fmt.Print(" - Incorrect Input - \n")
-			}
-		}
-	LoopCheese:
-		for {
-			fmt.Print("> Would you like to add Cheese? [Y/N]: ")
-			switch fmt.Fscan(os.Stdin, &temp); temp {
-			case "Y":
-				tempBuilder.AddCheese()
-				count += 1
-				break LoopCheese
-			case "N":
-				break LoopCheese
-			default:
-				fmt.Print(" - Incorrect Input - \n")
-			}
-		}
-	LoopPepperoni:
-		for {
-			fmt.Print("> Would you like to add Pepperoni? [Y/N]: ")
-			switch fmt.Fscan(os.Stdin, &temp); temp {
-			case "Y":
-				tempBuilder.AddPepperoni()
-				count += 1
-				break LoopPepperoni
-			case "N":
-				break LoopPepperoni
-			default:
-				fmt.Print(" - Incorrect Input - \n")
-			}
-		}
-	LoopLettuce:
-		for {
-			fmt.Print("> Would you like to add Lettuce? [Y/N]: ")
-			switch fmt.Fscan(os.Stdin, &temp); temp {
-			case "Y":
-				tempBuilder.AddLettuce()
-				count += 1
-				break LoopLettuce
-			case "N":
-				break LoopLettuce
-			default:
-				fmt.Print(" - Incorrect Input - \n")
-			}
-		}
-	LoopSausage:
-		for {
-			fmt.Print("> Would you like to add Sausage? [Y/N]: ")
-			switch fmt.Fscan(os.Stdin, &temp); temp {
-			case "Y":
-				tempBuilder.AddSausage()
-				count += 1
-				break LoopSausage
-			case "N":
-				break LoopSausage
-			default:
-				fmt.Print(" - Incorrect Input - \n")
-			}
-		}
-		if count >= 2 {
-			break
-		}
-		fmt.Println(" - You have chosen less than 2 ingredients for Pizza - ")
-		fmt.Println(" - Retry choosing the ingredients for Pizza - ")
-	}
-	pizzaBuilder = tempBuilder
-	customPizza := pizzaBuilder.Build()
-	customPizza.SetName("Custom Pizza")
-	customPizza.Accept(&PrintIngredients{})
-	fmt.Println("Custom Pizza size: " + customPizza.GetSize())
-	getPrice := &GetPrice{}
-	customPizza.Accept(getPrice)
-	fmt.Printf("Custom Pizza price: $%.2f \n", getPrice.price)
-	return customPizza
-}
-
 func main() {
 
 	// Initialization of Cards
@@ -173,9 +31,10 @@ func main() {
 
 	order.SetOrderNum(r1.Intn(9999))
 
+	getPrice := &GetPrice{}
 	var name, temp string
 	var count float32
-	var day, month, year, pizzaId int
+	var day, month, year, pizzaId, code int
 
 	fmt.Println(" - Welcome, Dear Client! - ")
 	fmt.Println(" - We are glad to see You! - ")
@@ -185,9 +44,8 @@ func main() {
 	fmt.Println(" - Date of birth may affect on your Future Discount! - ")
 	fmt.Print("> Please, Enter your date of birth (Day Month Year): ")
 	fmt.Fscan(os.Stdin, &day, &month, &year)
-	client := NewClientFactory(name, Date{year, month, day})
-	order.SetClient(*client)
-	fmt.Println("\n - Now " + client.GetName() + ", Let's make an Order! - ")
+	order.SetClient(NewClientFactory(name, Date{year, month, day}))
+	fmt.Println("\n - Now " + order.GetClient().GetName() + ", Let's make an Order! - ")
 
 PizzaOrdering:
 	for {
@@ -196,19 +54,6 @@ PizzaOrdering:
 			fmt.Printf(" [%d] %s\n", i, v.GetName())
 		}
 		fmt.Println("> Please, choose a PizzaID or Function: ")
-		/*
-			x := someFunction() // Some value of an unknown type is stored in x now
-			switch x := x.(type) {
-			    case bool:
-			        fmt.Printf("boolean %t\n", x)             // x has type bool
-			    case int:
-			        fmt.Printf("integer %d\n", x)             // x has type int
-			    case string:
-			        fmt.Printf("pointer to boolean %s\n", x) // x has type string
-			    default:
-			        fmt.Printf("unexpected type %T\n", x)     // %T prints whatever type x is
-			}
-		*/
 		for {
 			fmt.Fscan(os.Stdin, &pizzaId)
 			if pizzaId < 0 || pizzaId >= len(pizzaList) {
@@ -219,11 +64,13 @@ PizzaOrdering:
 		}
 		switch pizzaList[pizzaId].GetName() {
 		case "- CREATE CUSTOM PIZZA -":
-			pizzaList[0] = MakingCustomPizza()
+			pizzaList[0] = order.MakingCustomPizza()
 		case "- END ORDER -":
 			break PizzaOrdering
 		default:
 			pizzaList[pizzaId].Accept(&PrintIngredients{})
+			pizzaList[pizzaId].Accept(getPrice)
+			fmt.Printf("Price: $%.2f\n", getPrice.ReturnPrice())
 		PizzaContinueConfirmation:
 			for {
 				fmt.Println("> Would you like to Continue? [Y/N]: ")
@@ -252,7 +99,8 @@ PizzaOrdering:
 		fmt.Printf(" - Order #%d - \n", order.GetOrderNum())
 		fmt.Println(" - You Ordered Pizzas: - ")
 		for i, v := range order.pizzas {
-			fmt.Printf(" 1) %s - Count: %.0f\n", i.GetName(), v)
+			i.Accept(getPrice)
+			fmt.Printf(" 1) %s - Price: $%.2f - Count: %.0f\n", i.GetName(), getPrice.ReturnPrice(), v)
 		}
 		fmt.Println(" |------------------------| ")
 		fmt.Println()
@@ -262,7 +110,8 @@ PizzaOrdering:
 	fmt.Println(" - You Ordered Pizzas: - ")
 	count = 0
 	for i, v := range order.pizzas {
-		fmt.Printf(" 1) %s - Count: %.0f\n", i.GetName(), v)
+		i.Accept(getPrice)
+		fmt.Printf(" 1) %s - Price: $%.2f - Count: %.0f\n", i.GetName(), getPrice.ReturnPrice(), v)
 		count++
 	}
 	if count == 0 {
@@ -271,27 +120,25 @@ PizzaOrdering:
 	fmt.Println(" |------------------------| ")
 	if count != 0 {
 		fmt.Println()
-		getPrice := &GetPrice{}
 		var totalPrice float32
 		count = 0
 		for i, v := range order.pizzas {
 			if v != 0 {
 				i.Accept(getPrice)
-				totalPrice += getPrice.price * v
+				totalPrice += getPrice.ReturnPrice() * v
 			}
 			count++
 		}
 		fmt.Printf(" - Total Price: $%.2f - \n", totalPrice)
-		fmt.Println(order.client.socialStatus.String())
-		count = order.client.socialStatus.Discount()
+		fmt.Println(order.client.socialStatus)
+		count = order.client.MakeDiscount()
 		totalPrice = totalPrice - totalPrice*(count/100)
 		fmt.Printf(" - Final Payment: $%.2f - \n", totalPrice)
-		fmt.Println(" - Please, provide your card to make Payment - ")
-		fmt.Println("> Enter Your Card Number [or You can enter \"1\" to Exit]: ")
-
+		fmt.Println(" - Please, Provide your Card to make Payment - ")
 		// Payment
 	CardSetting:
 		for {
+			fmt.Println("> Enter Your Card Number [or You can enter \"1\" to Exit]: ")
 			fmt.Fscan(os.Stdin, &temp)
 			if temp == "1" {
 				fmt.Println(" - The Payment of Order Refused - ")
@@ -299,15 +146,20 @@ PizzaOrdering:
 			}
 			for _, v := range cards {
 				if temp == v.GetCardNumber() {
-					order.SetCard(v)
-					break CardSetting
+					fmt.Print("> Secure Code: ")
+					fmt.Fscan(os.Stdin, &code)
+					if code == v.GetSecureCode() {
+						order.SetCard(v)
+						break CardSetting
+					} else {
+						fmt.Println(" - Incorrect Secure Code - ")
+					}
 				}
 			}
-			fmt.Println(" - Incorrect Input, Try Again - ")
+			fmt.Println(" - Incorrect Card data, Try Again - ")
 		}
 		order.Pay(totalPrice)
 		if !order.isPaid {
-			fmt.Println(" - Please, provide another Card [or You can enter \"1\" to Exit] - ")
 			goto CardSetting
 		}
 	}

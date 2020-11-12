@@ -83,11 +83,14 @@ type PizzaVisitor interface {
 	VisitForPizza(*Pizza)
 }
 
-// Visitor Method 1
+// Visitor Func 1
 type GetPrice struct {
 	price float32
 }
 
+func (gp *GetPrice) ReturnPrice() float32 {
+	return gp.price
+}
 func (gp *GetPrice) VisitForPizza(p *Pizza) {
 	gp.price = 0
 	switch p.size {
@@ -121,7 +124,7 @@ func (gp *GetPrice) VisitForPizza(p *Pizza) {
 	}
 }
 
-// Visitor Method 2
+// Visitor Func 2
 type PrintIngredients struct{}
 
 func (pi *PrintIngredients) VisitForPizza(p *Pizza) {

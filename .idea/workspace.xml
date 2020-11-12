@@ -25,6 +25,7 @@
       <change beforePath="$PROJECT_DIR$/Client.go" beforeDir="false" afterPath="$PROJECT_DIR$/Client.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main.go" beforeDir="false" afterPath="$PROJECT_DIR$/Main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Order.go" beforeDir="false" afterPath="$PROJECT_DIR$/Order.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pizza.go" beforeDir="false" afterPath="$PROJECT_DIR$/Pizza.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +105,8 @@
     <MESSAGE value="Visitor for Pizza" />
     <MESSAGE value="75% of Work is Done" />
     <MESSAGE value="85% of Work is Done" />
-    <option name="LAST_COMMIT_MESSAGE" value="85% of Work is Done" />
+    <MESSAGE value="Pre - Final Work" />
+    <option name="LAST_COMMIT_MESSAGE" value="Pre - Final Work" />
   </component>
   <component name="WindowStateProjectService">
     <state x="223" y="0" width="1089" height="824" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1605105971152">
@@ -115,22 +117,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="548" y="117" key="#com.intellij.ide.macro.MacrosDialog/0.0.1536.824@0.0.1536.824" timestamp="1605082532481" />
-    <state width="1493" height="360" key="GridCell.Tab.0.bottom" timestamp="1605172210064">
+    <state width="1493" height="360" key="GridCell.Tab.0.bottom" timestamp="1605177521038">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="360" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1605172210064" />
-    <state width="1493" height="360" key="GridCell.Tab.0.center" timestamp="1605172210064">
+    <state width="1493" height="360" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1605177521038" />
+    <state width="1493" height="360" key="GridCell.Tab.0.center" timestamp="1605177521038">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="360" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1605172210064" />
-    <state width="1493" height="360" key="GridCell.Tab.0.left" timestamp="1605172210064">
+    <state width="1493" height="360" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1605177521038" />
+    <state width="1493" height="360" key="GridCell.Tab.0.left" timestamp="1605177521038">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="360" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1605172210064" />
-    <state width="1493" height="360" key="GridCell.Tab.0.right" timestamp="1605172210064">
+    <state width="1493" height="360" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1605177521038" />
+    <state width="1493" height="360" key="GridCell.Tab.0.right" timestamp="1605177521038">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="360" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1605172210064" />
+    <state width="1493" height="360" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1605177521038" />
     <state width="1493" height="261" key="GridCell.Tab.1.bottom" timestamp="1605130846268">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -147,10 +149,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1493" height="261" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1605130846268" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1605130832266">
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1605172287575">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1605130832266" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1605172287575" />
     <state x="586" y="326" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1604629780032">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
