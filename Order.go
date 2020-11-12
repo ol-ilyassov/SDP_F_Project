@@ -42,8 +42,8 @@ func (o *OrdinaryOrder) InitPizzasListForOrder() {
 }
 
 func (o *OrdinaryOrder) Pay(money float32) {
-	fmt.Println("- Starting Pay Operation ... -")
-	o.card.PayOperation(money)
+	fmt.Println(" - Starting Pay Operation ... - ")
+	o.isPaid = o.card.PayOperation(money)
 }
 
 func (o *OrdinaryOrder) SetCard(card Card) {
@@ -53,30 +53,3 @@ func (o *OrdinaryOrder) SetCard(card Card) {
 func (o *OrdinaryOrder) GetCard() *Card {
 	return &o.card
 }
-
-/*
-func (o *OrdinaryOrder) Accept(v OrderVisitor) {
-	v.VisitForOrdinaryOrder(o)
-}
-
-type OrderVisitor interface {
-	VisitForOrdinaryOrder(*OrdinaryOrder)
-}
-
-// Visitor1
-type Payment struct{}
-
-func (p *Payment) VisitForOrdinaryOrder(o *OrdinaryOrder) {
-
-}
-
-// Visitor2
-type Method2 struct{}
-
-func (m *Method2) VisitForOrdinaryOrder(o *OrdinaryOrder) {
-
-}
-
-//
-
-*/

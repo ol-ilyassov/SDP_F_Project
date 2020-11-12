@@ -47,31 +47,31 @@ type Status interface {
 type DefaultStatus struct{}
 
 func (d DefaultStatus) Discount() float32 {
-	fmt.Println("You have Your discount is 0%")
+	fmt.Println(" - You have Your discount is 0% - ")
 	return 0
 }
 func (d DefaultStatus) String() string {
-	return "You have an Account with Default status.\nNo Discount."
+	return " - You have an Account with Default status - "
 }
 
 type StudentStatus struct{}
 
 func (s StudentStatus) Discount() float32 {
-	fmt.Println("Your discount is 10%")
+	fmt.Println(" - Your discount is 10% - ")
 	return 10
 }
 func (s StudentStatus) String() string {
-	return "You have an Account with Student status.\nDiscount = 10%"
+	return " - You have an Account with Student status - "
 }
 
 type PensionerStatus struct{}
 
 func (p PensionerStatus) Discount() float32 {
-	fmt.Println("Your discount is 20%")
+	fmt.Println(" - Your discount is 20% - ")
 	return 20
 }
 func (p PensionerStatus) String() string {
-	return "You have an Account with Pensioner status.\nDiscount = 20%"
+	return " - You have an Account with Pensioner status - "
 }
 
 // Factory DP

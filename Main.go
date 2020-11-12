@@ -151,10 +151,12 @@ func MakingCustomPizza() *Pizza {
 
 func main() {
 
-	card1 := &MasterCard{cardNumber: "4111222233334444", balance: 8000.00, secureCode: 1111}
-	card2 := &VisaCard{cardNumber: "5111222233334444", balance: 6000.00, secureCode: 1112}
+	// Initialization of Cards
+	var cards []Card
+	cards = append(cards, &MasterCard{cardNumber: "4111222233334444", balance: 8000.00, secureCode: 1111})
+	cards = append(cards, &VisaCard{cardNumber: "5111222233334444", balance: 6000.00, secureCode: 1112})
 
-	// Initialization of pizzas
+	// Initialization of Pizzas
 	var pizzaList []*Pizza
 	pizzaList = append(pizzaList, &Pizza{name: "- CREATE CUSTOM PIZZA -"})
 	pizzaList = append(pizzaList, &Pizza{name: "Philadelphia", size: "Medium", tomato: true, cheese: true, sausage: true})
@@ -163,8 +165,8 @@ func main() {
 	pizzaList = append(pizzaList, &Pizza{name: "Hawaiian", size: "Large", pineapple: true, cheese: true, tomato: true, lettuce: true})
 	pizzaList = append(pizzaList, &Pizza{name: "Margarita", size: "Large", pepperoni: true, anchovy: true, sausage: true})
 	pizzaList = append(pizzaList, &Pizza{name: "- END ORDER -"})
-	// End
 
+	// Creation of Order
 	order := &OrdinaryOrder{pizzas: make(map[*Pizza]float32)}
 	s1 := rand.NewSource(time.Now().UnixNano())
 	r1 := rand.New(s1)
@@ -247,6 +249,7 @@ PizzaOrdering:
 			order.AddPizza(pizzaList[pizzaId], count)
 		}
 		fmt.Println(" |------------------------| ")
+		fmt.Printf(" - Order #%d - \n", order.GetOrderNum())
 		fmt.Println(" - You Ordered Pizzas: - ")
 		for i, v := range order.pizzas {
 			fmt.Printf(" 1) %s - Count: %.0f\n", i.GetName(), v)
@@ -255,6 +258,7 @@ PizzaOrdering:
 		fmt.Println()
 	}
 	fmt.Println(" |------------------------| ")
+	fmt.Printf(" - Order #%d - \n", order.GetOrderNum())
 	fmt.Println(" - You Ordered Pizzas: - ")
 	count = 0
 	for i, v := range order.pizzas {
@@ -265,41 +269,50 @@ PizzaOrdering:
 		fmt.Println("    No Pizza Ordered    ")
 	}
 	fmt.Println(" |------------------------| ")
-	fmt.Println()
-	getPrice := &GetPrice{}
-	var totalPrice float32
-	count = 0
-	for i, v := range order.pizzas {
-		if v != 0 {
-			i.Accept(getPrice)
-			totalPrice += getPrice.price * v
+	if count != 0 {
+		fmt.Println()
+		getPrice := &GetPrice{}
+		var totalPrice float32
+		count = 0
+		for i, v := range order.pizzas {
+			if v != 0 {
+				i.Accept(getPrice)
+				totalPrice += getPrice.price * v
+			}
+			count++
 		}
-		count++
-	}
-	fmt.Printf(" - Total price: $%.2f - \n", totalPrice)
-	fmt.Println(" - Please, provide your cart to make Payment - ")
-	fmt.Println("> Enter Your Card Number: ")
-	// Payment
-CardSetting:
-	for {
-		fmt.Fscan(os.Stdin, &temp)
-		switch temp {
-		case "4111222233334444":
-			order.SetCard(card1)
-			break CardSetting
-		case "5111222233334444":
-			order.SetCard(card2)
-			break CardSetting
-		default:
-			fmt.Println(" - Incorrect Card Number, Try Again - ")
-		}
-	}
-	fmt.Println(order.client.socialStatus.String())
-	count = order.client.socialStatus.Discount()
-	totalPrice = totalPrice - totalPrice*(count/100)
+		fmt.Printf(" - Total Price: $%.2f - \n", totalPrice)
+		fmt.Println(order.client.socialStatus.String())
+		count = order.client.socialStatus.Discount()
+		totalPrice = totalPrice - totalPrice*(count/100)
+		fmt.Printf(" - Final Payment: $%.2f - \n", totalPrice)
+		fmt.Println(" - Please, provide your card to make Payment - ")
+		fmt.Println("> Enter Your Card Number [or You can enter \"1\" to Exit]: ")
 
-	order.Pay(totalPrice)
+		// Payment
+	CardSetting:
+		for {
+			fmt.Fscan(os.Stdin, &temp)
+			if temp == "1" {
+				fmt.Println(" - The Payment of Order Refused - ")
+				goto End
+			}
+			for _, v := range cards {
+				if temp == v.GetCardNumber() {
+					order.SetCard(v)
+					break CardSetting
+				}
+			}
+			fmt.Println(" - Incorrect Input, Try Again - ")
+		}
+		order.Pay(totalPrice)
+		if !order.isPaid {
+			fmt.Println(" - Please, provide another Card [or You can enter \"1\" to Exit] - ")
+			goto CardSetting
+		}
+	}
+End:
 	fmt.Println()
 	fmt.Println(" - Thank You for using our Services - ")
-	fmt.Println(" - Have a nice Day! - ")
+	fmt.Println(" - Have a Nice Day! - ")
 }
