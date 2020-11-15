@@ -43,172 +43,36 @@ func (o *OrdinaryOrder) GetCard() *Card {
 
 // Complex Functions
 
-// #1 OrderID
-func (o *OrdinaryOrder) GenerateOrderNum() {
-	s1 := rand.NewSource(time.Now().UnixNano())
-	r1 := rand.New(s1)
-	o.orderNum = r1.Intn(9999)
-}
-
-// #2 Client Creation
-func (o *OrdinaryOrder) SetClient() {
+// #1 Client Creation
+func (o *OrdinaryOrder) CreateClient() {
 	var name string
 	var day, month, year int
-	fmt.Println(" - Welcome, Dear Client! - ")
-	fmt.Println(" - We are glad to see You! - ")
-	fmt.Println(" - We want to create a small portrait of You - ")
+
 	fmt.Print("> Please, Enter your name: ")
 	fmt.Fscan(os.Stdin, &name)
 	fmt.Println(" - Date of birth may affect on your Future Discount! - ")
-	fmt.Print("> Please, Enter your date of birth (Day Month Year): ")
-	fmt.Fscan(os.Stdin, &day, &month, &year)
-	o.client = NewClientFactory(name, Date{year, month, day})
+	for {
+		fmt.Print("> Please, Enter your date of birth (dd mm yyyy): ")
+		fmt.Fscan(os.Stdin, &day, &month, &year)
+		if day < 1 || day > 31 {
+			fmt.Println(" - Incorrect Input about Day (Valid Input Day: 1-31) - ")
+			continue
+		}
+		if month < 1 || month > 12 {
+			fmt.Println(" - Incorrect Input about Month (Valid Input Day: 1-12) - ")
+			continue
+		}
+		if year < 1950 || year > 2015 {
+			fmt.Println(" - Incorrect Input about Year (Valid Input Year: from 1950 to 2015) - ")
+			continue
+		}
+		break
+	}
+
+	o.client = NewClientFactory(name, year, month, day)
 }
 
-// #3 Custom Pizza Creation
-func (o *OrdinaryOrder) MakingCustomPizza() *Pizza {
-	var temp string
-	fmt.Println(" - You have chosen the service of buying a Custom Pizza: - ")
-	fmt.Println(" - You should choose 2 or more ingredients - ")
-	pizzaBuilder := NewPizzaBuilder()
-	fmt.Printf("> Choose the size for your pizza\n  Small, Medium, or Large [S/M/L]: ")
-	for {
-		fmt.Fscan(os.Stdin, &temp)
-		if temp == "S" {
-			pizzaBuilder.SetSize().Small()
-			break
-		} else if temp == "M" {
-			pizzaBuilder.SetSize().Medium()
-			break
-		} else if temp == "L" {
-			pizzaBuilder.SetSize().Large()
-			break
-		} else {
-			fmt.Print("> Incorrect size of Pizza, Try again: ")
-		}
-	}
-	var tempBuilder *PizzaBuilder
-	var count int
-	for {
-		tempBuilder = pizzaBuilder
-		count = 0
-
-	LoopTomato:
-		for {
-			fmt.Print("> Would you like to add Tomato? [Y/N]: ")
-			switch fmt.Fscan(os.Stdin, &temp); temp {
-			case "Y":
-				tempBuilder.AddTomato()
-				count += 1
-				break LoopTomato
-			case "N":
-				break LoopTomato
-			default:
-				fmt.Print(" - Incorrect Input - \n")
-			}
-		}
-	LoopPineapple:
-		for {
-			fmt.Print("> Would you like to add Pineapple? [Y/N]: ")
-			switch fmt.Fscan(os.Stdin, &temp); temp {
-			case "Y":
-				tempBuilder.AddPineapple()
-				count += 1
-				break LoopPineapple
-			case "N":
-				break LoopPineapple
-			default:
-				fmt.Print(" - Incorrect Input - \n")
-			}
-		}
-	LoopAnchovy:
-		for {
-			fmt.Print("> Would you like to add Anchovy? [Y/N]: ")
-			switch fmt.Fscan(os.Stdin, &temp); temp {
-			case "Y":
-				tempBuilder.AddAnchovy()
-				count += 1
-				break LoopAnchovy
-			case "N":
-				break LoopAnchovy
-			default:
-				fmt.Print(" - Incorrect Input - \n")
-			}
-		}
-	LoopCheese:
-		for {
-			fmt.Print("> Would you like to add Cheese? [Y/N]: ")
-			switch fmt.Fscan(os.Stdin, &temp); temp {
-			case "Y":
-				tempBuilder.AddCheese()
-				count += 1
-				break LoopCheese
-			case "N":
-				break LoopCheese
-			default:
-				fmt.Print(" - Incorrect Input - \n")
-			}
-		}
-	LoopPepperoni:
-		for {
-			fmt.Print("> Would you like to add Pepperoni? [Y/N]: ")
-			switch fmt.Fscan(os.Stdin, &temp); temp {
-			case "Y":
-				tempBuilder.AddPepperoni()
-				count += 1
-				break LoopPepperoni
-			case "N":
-				break LoopPepperoni
-			default:
-				fmt.Print(" - Incorrect Input - \n")
-			}
-		}
-	LoopLettuce:
-		for {
-			fmt.Print("> Would you like to add Lettuce? [Y/N]: ")
-			switch fmt.Fscan(os.Stdin, &temp); temp {
-			case "Y":
-				tempBuilder.AddLettuce()
-				count += 1
-				break LoopLettuce
-			case "N":
-				break LoopLettuce
-			default:
-				fmt.Print(" - Incorrect Input - \n")
-			}
-		}
-	LoopSausage:
-		for {
-			fmt.Print("> Would you like to add Sausage? [Y/N]: ")
-			switch fmt.Fscan(os.Stdin, &temp); temp {
-			case "Y":
-				tempBuilder.AddSausage()
-				count += 1
-				break LoopSausage
-			case "N":
-				break LoopSausage
-			default:
-				fmt.Print(" - Incorrect Input - \n")
-			}
-		}
-		if count >= 2 {
-			break
-		}
-		fmt.Println(" - You have chosen less than 2 ingredients for Pizza - ")
-		fmt.Println(" - Retry choosing the ingredients for Pizza - ")
-	}
-	pizzaBuilder = tempBuilder
-	customPizza := pizzaBuilder.Build()
-	customPizza.SetName("Custom Pizza")
-	customPizza.Accept(&PrintIngredients{})
-	fmt.Println("Custom Pizza size: " + customPizza.GetSize())
-	getPrice := &GetPrice{}
-	customPizza.Accept(getPrice)
-	fmt.Printf("Custom Pizza price: $%.2f \n", getPrice.price)
-	return customPizza
-}
-
-// #4 Pizza Ordering
+// #3 Pizza Ordering
 func (o *OrdinaryOrder) PizzaOrdering(pizzaList []*Pizza) {
 	getPrice := &GetPrice{}
 	var count float32
@@ -242,12 +106,12 @@ PizzaOrdering:
 			fmt.Printf("Price: $%.2f\n", getPrice.ReturnPrice())
 		PizzaContinueConfirmation:
 			for {
-				fmt.Println("> Would you like to Continue? [Y/N]: ")
+				fmt.Println("> Would you like to Continue? [y/n]: ")
 				fmt.Fscan(os.Stdin, &temp)
 				switch temp {
-				case "Y":
+				case "y":
 					break PizzaContinueConfirmation
-				case "N":
+				case "n":
 					continue PizzaOrdering
 				default:
 					fmt.Println(" - Incorrect Input, Try Again - ")
@@ -274,6 +138,156 @@ PizzaOrdering:
 		fmt.Println(" |------------------------| ")
 		fmt.Println()
 	}
+}
+
+// #2 OrderID
+func (o *OrdinaryOrder) GenerateOrderNum() {
+	s1 := rand.NewSource(time.Now().UnixNano())
+	r1 := rand.New(s1)
+	o.orderNum = r1.Intn(9999)
+}
+
+// #4 Custom Pizza Creation
+func (o *OrdinaryOrder) MakingCustomPizza() *Pizza {
+	var temp string
+	fmt.Println(" - You have chosen the service of buying a Custom Pizza: - ")
+	fmt.Println(" - You should choose 2 or more ingredients - ")
+	pizzaBuilder := NewPizzaBuilder()
+	fmt.Printf("> Choose the size for your pizza\n  Small, Medium, or Large [S/M/L]: ")
+	for {
+		fmt.Fscan(os.Stdin, &temp)
+		if temp == "S" {
+			pizzaBuilder.SetSize().Small()
+			break
+		} else if temp == "M" {
+			pizzaBuilder.SetSize().Medium()
+			break
+		} else if temp == "L" {
+			pizzaBuilder.SetSize().Large()
+			break
+		} else {
+			fmt.Print("> Incorrect size of Pizza, Try again: ")
+		}
+	}
+	var tempBuilder *PizzaBuilder
+	var count int
+	for {
+		tempBuilder = pizzaBuilder
+		count = 0
+
+	LoopTomato:
+		for {
+			fmt.Print("> Would you like to add Tomato? [y/n]: ")
+			switch fmt.Fscan(os.Stdin, &temp); temp {
+			case "y":
+				tempBuilder.AddTomato()
+				count += 1
+				break LoopTomato
+			case "n":
+				break LoopTomato
+			default:
+				fmt.Print(" - Incorrect Input - \n")
+			}
+		}
+	LoopPineapple:
+		for {
+			fmt.Print("> Would you like to add Pineapple? [y/n]: ")
+			switch fmt.Fscan(os.Stdin, &temp); temp {
+			case "y":
+				tempBuilder.AddPineapple()
+				count += 1
+				break LoopPineapple
+			case "n":
+				break LoopPineapple
+			default:
+				fmt.Print(" - Incorrect Input - \n")
+			}
+		}
+	LoopAnchovy:
+		for {
+			fmt.Print("> Would you like to add Anchovy? [y/n]: ")
+			switch fmt.Fscan(os.Stdin, &temp); temp {
+			case "y":
+				tempBuilder.AddAnchovy()
+				count += 1
+				break LoopAnchovy
+			case "n":
+				break LoopAnchovy
+			default:
+				fmt.Print(" - Incorrect Input - \n")
+			}
+		}
+	LoopCheese:
+		for {
+			fmt.Print("> Would you like to add Cheese? [y/n]: ")
+			switch fmt.Fscan(os.Stdin, &temp); temp {
+			case "y":
+				tempBuilder.AddCheese()
+				count += 1
+				break LoopCheese
+			case "n":
+				break LoopCheese
+			default:
+				fmt.Print(" - Incorrect Input - \n")
+			}
+		}
+	LoopPepperoni:
+		for {
+			fmt.Print("> Would you like to add Pepperoni? [y/n]: ")
+			switch fmt.Fscan(os.Stdin, &temp); temp {
+			case "y":
+				tempBuilder.AddPepperoni()
+				count += 1
+				break LoopPepperoni
+			case "n":
+				break LoopPepperoni
+			default:
+				fmt.Print(" - Incorrect Input - \n")
+			}
+		}
+	LoopLettuce:
+		for {
+			fmt.Print("> Would you like to add Lettuce? [y/n]: ")
+			switch fmt.Fscan(os.Stdin, &temp); temp {
+			case "y":
+				tempBuilder.AddLettuce()
+				count += 1
+				break LoopLettuce
+			case "n":
+				break LoopLettuce
+			default:
+				fmt.Print(" - Incorrect Input - \n")
+			}
+		}
+	LoopSausage:
+		for {
+			fmt.Print("> Would you like to add Sausage? [y/n]: ")
+			switch fmt.Fscan(os.Stdin, &temp); temp {
+			case "y":
+				tempBuilder.AddSausage()
+				count += 1
+				break LoopSausage
+			case "n":
+				break LoopSausage
+			default:
+				fmt.Print(" - Incorrect Input - \n")
+			}
+		}
+		if count >= 2 {
+			break
+		}
+		fmt.Println(" - You have chosen less than 2 ingredients for Pizza - ")
+		fmt.Println(" - Retry choosing the ingredients for Pizza - ")
+	}
+	pizzaBuilder = tempBuilder
+	customPizza := pizzaBuilder.Build()
+	customPizza.SetName("Custom Pizza")
+	customPizza.Accept(&PrintIngredients{})
+	fmt.Println("Custom Pizza size: " + customPizza.GetSize())
+	getPrice := &GetPrice{}
+	customPizza.Accept(getPrice)
+	fmt.Printf("Custom Pizza price: $%.2f \n", getPrice.price)
+	return customPizza
 }
 
 // #5 Purchase Process
@@ -342,7 +356,4 @@ func (o *OrdinaryOrder) PurchaseProcess(cards []Card) {
 		}
 	}
 End:
-	fmt.Println()
-	fmt.Println(" - Thank You for using our Services - ")
-	fmt.Println(" - Have a Nice Day! - ")
 }

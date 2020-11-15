@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 func main() {
 	// Initialization of Cards
 	var cards []Card
@@ -17,9 +19,15 @@ func main() {
 	pizzaList = append(pizzaList, &Pizza{name: "- END ORDER -"})
 
 	// Ordering Process
+	fmt.Println(" - Welcome, Dear Client! - ")
+	fmt.Println(" - We are glad to see You! - ")
+	fmt.Println(" - We want to create a small portrait of You - ")
 	order := &OrdinaryOrder{pizzas: make(map[*Pizza]float32)}
 	order.GenerateOrderNum()
-	order.SetClient()
+	order.CreateClient()
 	order.PizzaOrdering(pizzaList)
 	order.PurchaseProcess(cards)
+	fmt.Println()
+	fmt.Println(" - Thank You for using our Services - ")
+	fmt.Println(" - Have a Nice Day! - ")
 }

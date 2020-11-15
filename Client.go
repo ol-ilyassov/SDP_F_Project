@@ -25,7 +25,7 @@ type baseClient interface {
 
 type Client struct {
 	name         string
-	dateOfBirth  Date
+	dateOfBirth  *Date
 	socialStatus Status //Strategy DP
 }
 
@@ -75,18 +75,19 @@ func (p PensionerStatus) String() string {
 }
 
 // Factory DP
-func NewClientFactory(name string, date Date) *Client {
-	d1 := MakeDate(date.Year, date.Month, date.Day)
+func NewClientFactory(name string, year, month, day int) *Client {
+	d1 := MakeDate(year, month, day)
 	d2 := time.Now().UTC()
 	days := d2.Sub(d1).Hours() / 24
 	age := math.Round(days / 365)
+	date := &Date{year, month, year}
 	if age > 60 {
 		return &Client{name, date, PensionerStatus{}}
 	} else if (age >= 17) && (age <= 28) {
-		fmt.Print("> Are you Student? [Y/N]: ")
+		fmt.Print("> Are you Student? [y/n]: ")
 		var student string
 		fmt.Fscan(os.Stdin, &student)
-		if student == "Y" {
+		if student == "y" {
 			return &Client{name, date, StudentStatus{}}
 		}
 	}
