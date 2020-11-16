@@ -20,3 +20,4 @@
  > Behavioural DP:
   - Visitor [Order, Pizza] Done
   - Strategy [Client] Done
+  - ChainOfResponsibility [OrderingStep] Done

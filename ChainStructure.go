@@ -2,62 +2,48 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
+	"os"
+	"time"
 )
 
-type Order struct {
-	orderNum int
-	pizzas   map[*Pizza]float32 // PizzaStruct + Count
-	client   *Client
-	card     Card // Bridge DP
-	isPaid   bool
-
-	orderNumGeneration bool
-	clientCreation     bool
-	pizzaOrdering      bool
-	purchaseProcess    bool
+type OrderingStep interface {
+	execute(*Order)
+	setNext(OrderingStep)
 }
 
-func (o *Order) GetOrderNum() int {
-	return o.orderNum
-}
-func (o *Order) SetOrderNum(num int) {
-	o.orderNum = num
-}
-func (o *Order) GetClient() *Client {
-	return o.client
-}
-func (o *Order) GetPizzasList() map[*Pizza]float32 {
-	return o.pizzas
-}
-func (o *Order) AddPizza(pizza *Pizza, number float32) {
-	o.pizzas[pizza] = number
-}
-func (o *Order) SetCard(card Card) {
-	o.card = card
-}
-func (o *Order) GetCard() *Card {
-	return &o.card
-}
-func (o *Order) Pay(money float32) {
-	fmt.Println(" - Starting Pay Operation ... - ")
-	o.isPaid = o.card.PayOperation(money)
+type GenerateOrderNum struct {
+	next OrderingStep
 }
 
-/*
-// Complex Functions
-
-// #1 OrderID
-func (o *Order) GenerateOrderNum() {
+func (g *GenerateOrderNum) execute(o *Order) {
+	if o.orderNumGeneration {
+		fmt.Println(" - OrderNum is already Generated - ")
+		g.next.execute(o)
+		return
+	}
 	s1 := rand.NewSource(time.Now().UnixNano())
 	r1 := rand.New(s1)
 	o.SetOrderNum(r1.Intn(9999))
+	o.orderNumGeneration = true
+	g.next.execute(o)
+}
+func (g *GenerateOrderNum) setNext(next OrderingStep) {
+	g.next = next
 }
 
-// #2 Client Creation
-func (o *Order) CreateClient() {
+type CreateClient struct {
+	next OrderingStep
+}
+
+func (c *CreateClient) execute(o *Order) {
+	if o.clientCreation {
+		fmt.Println(" - Client is already Created -")
+		c.next.execute(o)
+		return
+	}
 	var name string
 	var day, month, year int
-
 	fmt.Print("> Please, Enter your name: ")
 	fmt.Fscan(os.Stdin, &name)
 	fmt.Println(" - Date of birth may affect on your Future Discount! - ")
@@ -88,12 +74,26 @@ func (o *Order) CreateClient() {
 		}
 		break
 	}
-
 	o.client = NewClientFactory(name, year, month, day)
+	o.clientCreation = true
+	c.next.execute(o)
+}
+func (c *CreateClient) setNext(next OrderingStep) {
+	c.next = next
 }
 
-// #3 Pizza Ordering
-func (o *Order) PizzaOrdering(pizzaList []*Pizza) {
+type PizzaOrdering struct {
+	next      OrderingStep
+	pizzaList []*Pizza
+}
+
+func (p *PizzaOrdering) execute(o *Order) {
+	if o.pizzaOrdering {
+		fmt.Println(" - Ordering Pizza is Completed -")
+		p.next.execute(o)
+		return
+	}
+	pizzaList := p.pizzaList
 	getPrice := &GetPrice{}
 	var count float32
 	var pizzaId int
@@ -118,7 +118,7 @@ PizzaOrdering:
 		pizzaId--
 		switch pizzaList[pizzaId].GetName() {
 		case "- CREATE CUSTOM PIZZA -":
-			pizzaList[0] = o.MakingCustomPizza()
+			pizzaList[0] = p.MakingCustomPizza()
 		case "- END ORDER -":
 			break PizzaOrdering
 		default:
@@ -159,10 +159,16 @@ PizzaOrdering:
 		fmt.Println(" |------------------------| ")
 		fmt.Println()
 	}
+	o.pizzaOrdering = true
+	p.next.execute(o)
 }
-
-// #4 Custom Pizza Creation
-func (o *Order) MakingCustomPizza() *Pizza {
+func (p *PizzaOrdering) setNext(next OrderingStep) {
+	p.next = next
+}
+func (p *PizzaOrdering) setPizzaList(list []*Pizza) {
+	p.pizzaList = list
+}
+func (p *PizzaOrdering) MakingCustomPizza() *Pizza {
 	var temp string
 	fmt.Println(" - You have chosen the service of buying a Custom Pizza: - ")
 	fmt.Println(" - You should choose 2 or more ingredients - ")
@@ -306,8 +312,18 @@ func (o *Order) MakingCustomPizza() *Pizza {
 	return customPizza
 }
 
-// #5 Purchase Process
-func (o *Order) PurchaseProcess(cards []Card) {
+type PurchaseProcess struct {
+	next  OrderingStep
+	cards []Card
+}
+
+func (p *PurchaseProcess) execute(o *Order) {
+	if o.purchaseProcess {
+		fmt.Println(" - Card is Setted -")
+		p.next.execute(o)
+		return
+	}
+	cards := p.cards
 	getPrice := &GetPrice{}
 	var temp string
 	var count float32
@@ -373,4 +389,9 @@ func (o *Order) PurchaseProcess(cards []Card) {
 	}
 End:
 }
-*/
+func (p *PurchaseProcess) setNext(next OrderingStep) {
+	p.next = next
+}
+func (p *PurchaseProcess) setCards(list []Card) {
+	p.cards = list
+}

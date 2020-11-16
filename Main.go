@@ -22,11 +22,22 @@ func main() {
 	fmt.Println(" - Welcome, Dear Client! - ")
 	fmt.Println(" - We are glad to see You! - ")
 	fmt.Println(" - We want to create a small portrait of You - ")
-	order := &OrdinaryOrder{pizzas: make(map[*Pizza]float32)}
-	order.GenerateOrderNum()
-	order.CreateClient()
-	order.PizzaOrdering(pizzaList)
-	order.PurchaseProcess(cards)
+	stepFour := &PurchaseProcess{}
+	stepFour.setCards(cards)
+
+	stepThree := &PizzaOrdering{}
+	stepThree.setPizzaList(pizzaList)
+	stepThree.setNext(stepFour)
+
+	stepTwo := &CreateClient{}
+	stepTwo.setNext(stepThree)
+
+	stepOne := &GenerateOrderNum{}
+	stepOne.setNext(stepTwo)
+
+	order := &Order{pizzas: make(map[*Pizza]float32)}
+	stepOne.execute(order)
+
 	fmt.Println()
 	fmt.Println(" - Thank You for using our Services - ")
 	fmt.Println(" - Have a Nice Day! - ")
