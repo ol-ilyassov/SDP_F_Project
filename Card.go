@@ -4,19 +4,22 @@ import "fmt"
 
 // Bridge DP
 type Card interface {
-	PayOperation(float32) bool
 	GetCardNumber() string
 	GetSecureCode() int
+	PayOperation(float32) bool
 }
 
 type VisaCard struct {
 	cardNumber string
-	balance    float32
 	secureCode int
+	balance    float32
 }
 
 func (v *VisaCard) GetCardNumber() string {
 	return v.cardNumber
+}
+func (v *VisaCard) GetSecureCode() int {
+	return v.secureCode
 }
 func (v *VisaCard) PayOperation(money float32) bool {
 	if money < v.balance {
@@ -28,18 +31,18 @@ func (v *VisaCard) PayOperation(money float32) bool {
 	}
 	return false
 }
-func (v *VisaCard) GetSecureCode() int {
-	return v.secureCode
-}
 
 type MasterCard struct {
 	cardNumber string
-	balance    float32
 	secureCode int
+	balance    float32
 }
 
 func (m *MasterCard) GetCardNumber() string {
 	return m.cardNumber
+}
+func (m *MasterCard) GetSecureCode() int {
+	return m.secureCode
 }
 func (m *MasterCard) PayOperation(money float32) bool {
 	if money < m.balance {
@@ -50,7 +53,4 @@ func (m *MasterCard) PayOperation(money float32) bool {
 		fmt.Println(" - Payment Fail, No enough Money on Balance - ")
 	}
 	return false
-}
-func (m *MasterCard) GetSecureCode() int {
-	return m.secureCode
 }
