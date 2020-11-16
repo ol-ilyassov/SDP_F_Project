@@ -51,7 +51,7 @@ func (c *CreateClient) execute(o *Order) {
 		fmt.Print("> Please, Enter your Day of birth (Valid Input Day: 1-31): ")
 		fmt.Fscan(os.Stdin, &day)
 		if day < 1 || day > 31 {
-			fmt.Println(" - Incorrect Input about Day (Valid Input Day: 1-31) - ")
+			fmt.Println(" - Incorrect Input about Day - ")
 			continue
 		}
 		break
@@ -60,7 +60,7 @@ func (c *CreateClient) execute(o *Order) {
 		fmt.Print("> Please, Enter your Month of birth (Valid Input: 1-12): ")
 		fmt.Fscan(os.Stdin, &month)
 		if month < 1 || month > 12 {
-			fmt.Println(" - Incorrect Input about Month (Valid Input: 1-12) - ")
+			fmt.Println(" - Incorrect Input about Month - ")
 			continue
 		}
 		break
@@ -69,7 +69,7 @@ func (c *CreateClient) execute(o *Order) {
 		fmt.Print("> Please, Enter your Year of birth (Valid Input Year: from 1900 to 2015): ")
 		fmt.Fscan(os.Stdin, &year)
 		if year < 1900 || year > 2015 {
-			fmt.Println(" - Incorrect Input about Year (Valid Input Year: from 1900 to 2015) - ")
+			fmt.Println(" - Incorrect Input about Year - ")
 			continue
 		}
 		break
