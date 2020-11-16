@@ -5,7 +5,7 @@ import "fmt"
 // Bridge DP
 type Card interface {
 	GetCardNumber() string
-	GetSecureCode() int
+	ValidateSecureCode(int) bool
 	PayOperation(float32) bool
 }
 
@@ -18,8 +18,11 @@ type VisaCard struct {
 func (v *VisaCard) GetCardNumber() string {
 	return v.cardNumber
 }
-func (v *VisaCard) GetSecureCode() int {
-	return v.secureCode
+func (v *VisaCard) ValidateSecureCode(secureCode int) bool {
+	if v.secureCode == secureCode {
+		return true
+	}
+	return false
 }
 func (v *VisaCard) PayOperation(money float32) bool {
 	if money < v.balance {
@@ -41,8 +44,11 @@ type MasterCard struct {
 func (m *MasterCard) GetCardNumber() string {
 	return m.cardNumber
 }
-func (m *MasterCard) GetSecureCode() int {
-	return m.secureCode
+func (m *MasterCard) ValidateSecureCode(secureCode int) bool {
+	if m.secureCode == secureCode {
+		return true
+	}
+	return false
 }
 func (m *MasterCard) PayOperation(money float32) bool {
 	if money < m.balance {

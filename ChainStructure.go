@@ -66,10 +66,10 @@ func (c *CreateClient) execute(o *Order) {
 		break
 	}
 	for {
-		fmt.Print("> Please, Enter your Year of birth (Valid Input Year: from 1950 to 2015): ")
+		fmt.Print("> Please, Enter your Year of birth (Valid Input Year: from 1900 to 2015): ")
 		fmt.Fscan(os.Stdin, &year)
-		if year < 1950 || year > 2015 {
-			fmt.Println(" - Incorrect Input about Year (Valid Input Year: from 1950 to 2015) - ")
+		if year < 1900 || year > 2015 {
+			fmt.Println(" - Incorrect Input about Year (Valid Input Year: from 1900 to 2015) - ")
 			continue
 		}
 		break
@@ -109,7 +109,7 @@ PizzaOrdering:
 		for {
 			fmt.Fscan(os.Stdin, &pizzaId)
 			if pizzaId < 1 || pizzaId >= len(p.pizzaList)+1 {
-				fmt.Println("> Incorrect PizzaID, Try Again: ")
+				fmt.Println("> Incorrect PizzaID or Function, Try Again: ")
 			} else {
 				break
 			}
@@ -370,7 +370,7 @@ func (p *PurchaseProcess) execute(o *Order) {
 				if temp == v.GetCardNumber() {
 					fmt.Print("> Secure Code: ")
 					fmt.Fscan(os.Stdin, &code)
-					if code == v.GetSecureCode() {
+					if v.ValidateSecureCode(code) {
 						o.SetCard(v)
 						break CardSetting
 					} else {
