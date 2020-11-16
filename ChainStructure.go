@@ -18,7 +18,7 @@ type GenerateOrderNum struct {
 
 func (g *GenerateOrderNum) execute(o *Order) {
 	if o.orderNumGeneration {
-		fmt.Println(" - OrderNum is already Generated - ")
+		fmt.Println(" - \"Order Number Generation\" Step is already Completed - ")
 		g.next.execute(o)
 		return
 	}
@@ -38,7 +38,7 @@ type CreateClient struct {
 
 func (c *CreateClient) execute(o *Order) {
 	if o.clientCreation {
-		fmt.Println(" - Client is already Created -")
+		fmt.Println(" - \"Client Creation Step\" is already Completed - ")
 		c.next.execute(o)
 		return
 	}
@@ -74,7 +74,7 @@ func (c *CreateClient) execute(o *Order) {
 		}
 		break
 	}
-	o.client = NewClientFactory(name, year, month, day)
+	o.SetClient(NewClientFactory(name, year, month, day))
 	o.clientCreation = true
 	c.next.execute(o)
 }
@@ -89,11 +89,10 @@ type PizzaOrdering struct {
 
 func (p *PizzaOrdering) execute(o *Order) {
 	if o.pizzaOrdering {
-		fmt.Println(" - Ordering Pizza is Completed -")
+		fmt.Println(" - \"Pizza Ordering Step\" is already Completed - ")
 		p.next.execute(o)
 		return
 	}
-	pizzaList := p.pizzaList
 	getPrice := &GetPrice{}
 	var count float32
 	var pizzaId int
@@ -103,27 +102,27 @@ func (p *PizzaOrdering) execute(o *Order) {
 PizzaOrdering:
 	for {
 		fmt.Println(" - Pizza's Menu: - ")
-		for i, v := range pizzaList {
+		for i, v := range p.pizzaList {
 			fmt.Printf(" [%d] %s\n", i+1, v.GetName())
 		}
 		fmt.Println("> Please, choose a PizzaID or Function: ")
 		for {
 			fmt.Fscan(os.Stdin, &pizzaId)
-			if pizzaId < 1 || pizzaId >= len(pizzaList)+1 {
+			if pizzaId < 1 || pizzaId >= len(p.pizzaList)+1 {
 				fmt.Println("> Incorrect PizzaID, Try Again: ")
 			} else {
 				break
 			}
 		}
 		pizzaId--
-		switch pizzaList[pizzaId].GetName() {
+		switch p.pizzaList[pizzaId].GetName() {
 		case "- CREATE CUSTOM PIZZA -":
-			pizzaList[0] = p.MakingCustomPizza()
+			p.pizzaList[0] = p.MakingCustomPizza()
 		case "- END ORDER -":
 			break PizzaOrdering
 		default:
-			pizzaList[pizzaId].Accept(&PrintIngredients{})
-			pizzaList[pizzaId].Accept(getPrice)
+			p.pizzaList[pizzaId].Accept(&PrintIngredients{})
+			p.pizzaList[pizzaId].Accept(getPrice)
 			fmt.Printf("Price: $%.2f\n", getPrice.ReturnPrice())
 		PizzaContinueConfirmation:
 			for {
@@ -147,7 +146,7 @@ PizzaOrdering:
 					break
 				}
 			}
-			o.AddPizza(pizzaList[pizzaId], count)
+			o.AddPizza(p.pizzaList[pizzaId], count)
 		}
 		fmt.Println(" |------------------------| ")
 		fmt.Printf(" - Order #%d - \n", o.GetOrderNum())
@@ -189,10 +188,10 @@ func (p *PizzaOrdering) MakingCustomPizza() *Pizza {
 			fmt.Print("> Incorrect size of Pizza, Try again: ")
 		}
 	}
-	var tempBuilder *PizzaBuilder
+	var intermediateBuilder *PizzaBuilder
 	var count int
 	for {
-		tempBuilder = pizzaBuilder
+		intermediateBuilder = pizzaBuilder
 		count = 0
 
 	LoopTomato:
@@ -200,7 +199,7 @@ func (p *PizzaOrdering) MakingCustomPizza() *Pizza {
 			fmt.Print("> Would you like to add Tomato? [y/n]: ")
 			switch fmt.Fscan(os.Stdin, &temp); temp {
 			case "y":
-				tempBuilder.AddTomato()
+				intermediateBuilder.AddTomato()
 				count += 1
 				break LoopTomato
 			case "n":
@@ -214,7 +213,7 @@ func (p *PizzaOrdering) MakingCustomPizza() *Pizza {
 			fmt.Print("> Would you like to add Pineapple? [y/n]: ")
 			switch fmt.Fscan(os.Stdin, &temp); temp {
 			case "y":
-				tempBuilder.AddPineapple()
+				intermediateBuilder.AddPineapple()
 				count += 1
 				break LoopPineapple
 			case "n":
@@ -228,7 +227,7 @@ func (p *PizzaOrdering) MakingCustomPizza() *Pizza {
 			fmt.Print("> Would you like to add Anchovy? [y/n]: ")
 			switch fmt.Fscan(os.Stdin, &temp); temp {
 			case "y":
-				tempBuilder.AddAnchovy()
+				intermediateBuilder.AddAnchovy()
 				count += 1
 				break LoopAnchovy
 			case "n":
@@ -242,7 +241,7 @@ func (p *PizzaOrdering) MakingCustomPizza() *Pizza {
 			fmt.Print("> Would you like to add Cheese? [y/n]: ")
 			switch fmt.Fscan(os.Stdin, &temp); temp {
 			case "y":
-				tempBuilder.AddCheese()
+				intermediateBuilder.AddCheese()
 				count += 1
 				break LoopCheese
 			case "n":
@@ -256,7 +255,7 @@ func (p *PizzaOrdering) MakingCustomPizza() *Pizza {
 			fmt.Print("> Would you like to add Pepperoni? [y/n]: ")
 			switch fmt.Fscan(os.Stdin, &temp); temp {
 			case "y":
-				tempBuilder.AddPepperoni()
+				intermediateBuilder.AddPepperoni()
 				count += 1
 				break LoopPepperoni
 			case "n":
@@ -270,7 +269,7 @@ func (p *PizzaOrdering) MakingCustomPizza() *Pizza {
 			fmt.Print("> Would you like to add Lettuce? [y/n]: ")
 			switch fmt.Fscan(os.Stdin, &temp); temp {
 			case "y":
-				tempBuilder.AddLettuce()
+				intermediateBuilder.AddLettuce()
 				count += 1
 				break LoopLettuce
 			case "n":
@@ -284,7 +283,7 @@ func (p *PizzaOrdering) MakingCustomPizza() *Pizza {
 			fmt.Print("> Would you like to add Sausage? [y/n]: ")
 			switch fmt.Fscan(os.Stdin, &temp); temp {
 			case "y":
-				tempBuilder.AddSausage()
+				intermediateBuilder.AddSausage()
 				count += 1
 				break LoopSausage
 			case "n":
@@ -300,7 +299,7 @@ func (p *PizzaOrdering) MakingCustomPizza() *Pizza {
 		fmt.Println(" - Retry choosing the ingredients for Pizza - ")
 	}
 	fmt.Println()
-	pizzaBuilder = tempBuilder
+	pizzaBuilder = intermediateBuilder
 	customPizza := pizzaBuilder.Build()
 	customPizza.SetName("Custom Pizza")
 	customPizza.Accept(&PrintIngredients{})
@@ -319,11 +318,10 @@ type PurchaseProcess struct {
 
 func (p *PurchaseProcess) execute(o *Order) {
 	if o.purchaseProcess {
-		fmt.Println(" - Card is Setted -")
+		fmt.Println(" - \"Purchase Process Step\" is already Completed - ")
 		p.next.execute(o)
 		return
 	}
-	cards := p.cards
 	getPrice := &GetPrice{}
 	var temp string
 	var count float32
@@ -354,8 +352,8 @@ func (p *PurchaseProcess) execute(o *Order) {
 			count++
 		}
 		fmt.Printf(" - Total Price: $%.2f - \n", totalPrice)
-		fmt.Println(o.client.socialStatus)
-		count = o.client.MakeDiscount()
+		fmt.Println(o.GetClient().GetStatus())
+		count = o.GetClient().MakeDiscount()
 		totalPrice = totalPrice - totalPrice*(count/100)
 		fmt.Printf(" - Final Payment: $%.2f - \n", totalPrice)
 		fmt.Println(" - Please, Provide your Card to make Payment - ")
@@ -368,7 +366,7 @@ func (p *PurchaseProcess) execute(o *Order) {
 				fmt.Println(" - The Payment of Order Refused - ")
 				goto End
 			}
-			for _, v := range cards {
+			for _, v := range p.cards {
 				if temp == v.GetCardNumber() {
 					fmt.Print("> Secure Code: ")
 					fmt.Fscan(os.Stdin, &code)

@@ -37,7 +37,6 @@ func main() {
 
 	order := &Order{pizzas: make(map[*Pizza]float32)}
 	stepOne.execute(order)
-
 	fmt.Println()
 	fmt.Println(" - Thank You for using our Services - ")
 	fmt.Println(" - Have a Nice Day! - ")
