@@ -95,32 +95,32 @@ func (gp *GetPrice) VisitForPizza(p *Pizza) {
 	gp.price = 0
 	switch p.size {
 	case "Small":
-		gp.price += 100
+		gp.price += 6
 	case "Medium":
-		gp.price += 150
+		gp.price += 10
 	case "Large":
-		gp.price += 200
+		gp.price += 14
 	}
 	if p.tomato {
-		gp.price += 150
+		gp.price += 4
 	}
 	if p.pineapple {
-		gp.price += 250
+		gp.price += 7
 	}
 	if p.anchovy {
-		gp.price += 300
+		gp.price += 8
 	}
 	if p.cheese {
-		gp.price += 170
+		gp.price += 7
 	}
 	if p.pepperoni {
-		gp.price += 230
+		gp.price += 8
 	}
 	if p.lettuce {
-		gp.price += 135
+		gp.price += 5
 	}
 	if p.sausage {
-		gp.price += 195
+		gp.price += 9
 	}
 }
 

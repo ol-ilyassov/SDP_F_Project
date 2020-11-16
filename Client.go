@@ -17,12 +17,6 @@ func MakeDate(year, month, day int) time.Time {
 	return time.Date(year, time.Month(month), day, 0, 0, 0, 0, time.UTC)
 }
 
-type baseClient interface {
-	GetName() string
-	GetStatus() string
-	MakeDiscount() float32
-}
-
 type Client struct {
 	name         string
 	dateOfBirth  *Date

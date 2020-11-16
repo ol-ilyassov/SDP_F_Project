@@ -15,7 +15,6 @@
   - Factory [Client] Done
 
  > Structural DP:
-  - Facade [Order] Done
   - Bridge [Order + Card] Done
 
  > Behavioural DP:

@@ -5,8 +5,8 @@ import "fmt"
 func main() {
 	// Initialization of Cards
 	var cards []Card
-	cards = append(cards, &MasterCard{cardNumber: "4111222233334444", balance: 8000.00, secureCode: 1111})
-	cards = append(cards, &VisaCard{cardNumber: "5111222233334444", balance: 6000.00, secureCode: 1112})
+	cards = append(cards, &MasterCard{cardNumber: "4111222233334444", balance: 800.00, secureCode: 1111})
+	cards = append(cards, &VisaCard{cardNumber: "5111222233334444", balance: 600.00, secureCode: 1112})
 
 	// Initialization of Pizzas
 	var pizzaList []*Pizza

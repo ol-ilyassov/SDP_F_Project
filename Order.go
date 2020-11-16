@@ -7,7 +7,6 @@ import (
 	"time"
 )
 
-// Facade
 type OrdinaryOrder struct {
 	orderNum int
 	pizzas   map[*Pizza]float32 // PizzaStruct + Count
@@ -22,6 +21,10 @@ func (o *OrdinaryOrder) GetOrderNum() int {
 
 func (o *OrdinaryOrder) GetClient() *Client {
 	return o.client
+}
+
+func (o *OrdinaryOrder) GetPizzasList() map[*Pizza]float32 {
+	return o.pizzas
 }
 
 func (o *OrdinaryOrder) AddPizza(pizza *Pizza, number float32) {
@@ -52,16 +55,26 @@ func (o *OrdinaryOrder) CreateClient() {
 	fmt.Fscan(os.Stdin, &name)
 	fmt.Println(" - Date of birth may affect on your Future Discount! - ")
 	for {
-		fmt.Print("> Please, Enter your date of birth (dd mm yyyy): ")
-		fmt.Fscan(os.Stdin, &day, &month, &year)
+		fmt.Print("> Please, Enter your Day of birth (Valid Input Day: 1-31): ")
+		fmt.Fscan(os.Stdin, &day)
 		if day < 1 || day > 31 {
 			fmt.Println(" - Incorrect Input about Day (Valid Input Day: 1-31) - ")
 			continue
 		}
+		break
+	}
+	for {
+		fmt.Print("> Please, Enter your Month of birth (Valid Input: 1-12): ")
+		fmt.Fscan(os.Stdin, &month)
 		if month < 1 || month > 12 {
-			fmt.Println(" - Incorrect Input about Month (Valid Input Day: 1-12) - ")
+			fmt.Println(" - Incorrect Input about Month (Valid Input: 1-12) - ")
 			continue
 		}
+		break
+	}
+	for {
+		fmt.Print("> Please, Enter your Year of birth (Valid Input Year: from 1950 to 2015): ")
+		fmt.Fscan(os.Stdin, &year)
 		if year < 1950 || year > 2015 {
 			fmt.Println(" - Incorrect Input about Year (Valid Input Year: from 1950 to 2015) - ")
 			continue
@@ -70,6 +83,13 @@ func (o *OrdinaryOrder) CreateClient() {
 	}
 
 	o.client = NewClientFactory(name, year, month, day)
+}
+
+// #2 OrderID
+func (o *OrdinaryOrder) GenerateOrderNum() {
+	s1 := rand.NewSource(time.Now().UnixNano())
+	r1 := rand.New(s1)
+	o.orderNum = r1.Intn(9999)
 }
 
 // #3 Pizza Ordering
@@ -84,17 +104,18 @@ PizzaOrdering:
 	for {
 		fmt.Println(" - Pizza's Menu: - ")
 		for i, v := range pizzaList {
-			fmt.Printf(" [%d] %s\n", i, v.GetName())
+			fmt.Printf(" [%d] %s\n", i+1, v.GetName())
 		}
 		fmt.Println("> Please, choose a PizzaID or Function: ")
 		for {
 			fmt.Fscan(os.Stdin, &pizzaId)
-			if pizzaId < 0 || pizzaId >= len(pizzaList) {
+			if pizzaId < 1 || pizzaId >= len(pizzaList)+1 {
 				fmt.Println("> Incorrect PizzaID, Try Again: ")
 			} else {
 				break
 			}
 		}
+		pizzaId--
 		switch pizzaList[pizzaId].GetName() {
 		case "- CREATE CUSTOM PIZZA -":
 			pizzaList[0] = o.MakingCustomPizza()
@@ -131,7 +152,7 @@ PizzaOrdering:
 		fmt.Println(" |------------------------| ")
 		fmt.Printf(" - Order #%d - \n", o.GetOrderNum())
 		fmt.Println(" - You Ordered Pizzas: - ")
-		for i, v := range o.pizzas {
+		for i, v := range o.GetPizzasList() {
 			i.Accept(getPrice)
 			fmt.Printf(" 1) %s - Price: $%.2f - Count: %.0f\n", i.GetName(), getPrice.ReturnPrice(), v)
 		}
@@ -140,29 +161,22 @@ PizzaOrdering:
 	}
 }
 
-// #2 OrderID
-func (o *OrdinaryOrder) GenerateOrderNum() {
-	s1 := rand.NewSource(time.Now().UnixNano())
-	r1 := rand.New(s1)
-	o.orderNum = r1.Intn(9999)
-}
-
 // #4 Custom Pizza Creation
 func (o *OrdinaryOrder) MakingCustomPizza() *Pizza {
 	var temp string
 	fmt.Println(" - You have chosen the service of buying a Custom Pizza: - ")
 	fmt.Println(" - You should choose 2 or more ingredients - ")
 	pizzaBuilder := NewPizzaBuilder()
-	fmt.Printf("> Choose the size for your pizza\n  Small, Medium, or Large [S/M/L]: ")
+	fmt.Printf("> Choose the size for your pizza\n  Small, Medium, or Large [s/m/l]: ")
 	for {
 		fmt.Fscan(os.Stdin, &temp)
-		if temp == "S" {
+		if temp == "s" {
 			pizzaBuilder.SetSize().Small()
 			break
-		} else if temp == "M" {
+		} else if temp == "m" {
 			pizzaBuilder.SetSize().Medium()
 			break
-		} else if temp == "L" {
+		} else if temp == "l" {
 			pizzaBuilder.SetSize().Large()
 			break
 		} else {
@@ -279,6 +293,7 @@ func (o *OrdinaryOrder) MakingCustomPizza() *Pizza {
 		fmt.Println(" - You have chosen less than 2 ingredients for Pizza - ")
 		fmt.Println(" - Retry choosing the ingredients for Pizza - ")
 	}
+	fmt.Println()
 	pizzaBuilder = tempBuilder
 	customPizza := pizzaBuilder.Build()
 	customPizza.SetName("Custom Pizza")
@@ -286,7 +301,8 @@ func (o *OrdinaryOrder) MakingCustomPizza() *Pizza {
 	fmt.Println("Custom Pizza size: " + customPizza.GetSize())
 	getPrice := &GetPrice{}
 	customPizza.Accept(getPrice)
-	fmt.Printf("Custom Pizza price: $%.2f \n", getPrice.price)
+	fmt.Printf("Price for Custom Pizza: $%.2f \n", getPrice.price)
+	fmt.Printf(" - Now, You can order Custom Pizza - \n")
 	return customPizza
 }
 
@@ -301,7 +317,7 @@ func (o *OrdinaryOrder) PurchaseProcess(cards []Card) {
 	fmt.Printf(" - Order #%d - \n", o.GetOrderNum())
 	fmt.Println(" - You Ordered Pizzas: - ")
 	count = 0
-	for i, v := range o.pizzas {
+	for i, v := range o.GetPizzasList() {
 		i.Accept(getPrice)
 		fmt.Printf(" 1) %s - Price: $%.2f - Count: %.0f\n", i.GetName(), getPrice.ReturnPrice(), v)
 		count++
@@ -314,7 +330,7 @@ func (o *OrdinaryOrder) PurchaseProcess(cards []Card) {
 		fmt.Println()
 		var totalPrice float32
 		count = 0
-		for i, v := range o.pizzas {
+		for i, v := range o.GetPizzasList() {
 			if v != 0 {
 				i.Accept(getPrice)
 				totalPrice += getPrice.ReturnPrice() * v
