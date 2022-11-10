@@ -6,7 +6,6 @@
 - Participants:
  - Ilyassov Olzhas
  - Sovetkazhiyev Alibek
- - Bakhytbekov Yersultan
 
 - Design Patterns:
 
